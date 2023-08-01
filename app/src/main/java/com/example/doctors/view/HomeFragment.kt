@@ -1,0 +1,110 @@
+package com.example.doctors.view
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.doctors.R
+import com.example.doctors.adapter.RecyclerViewAdapter
+import com.example.doctors.databinding.FragmentHomeBinding
+import com.example.doctors.model.DoctorsModel
+import kotlinx.coroutines.CoroutineExceptionHandler
+
+
+class HomeFragment : Fragment(R.layout.fragment_home),RecyclerViewAdapter.Listener {
+
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var recyclerViewAdapter : RecyclerViewAdapter
+    private val viewModel by viewModels<HomeViewModel>()
+
+
+
+    private val exceptionHandler = CoroutineExceptionHandler{ coroutineContext, throwable ->
+        println("Error : ${throwable.localizedMessage}")
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        recyclerViewAdapter = RecyclerViewAdapter(arrayListOf(),this)
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),1)
+        binding.recyclerView.adapter = recyclerViewAdapter
+
+        viewModel.loadData()
+        handleClick()
+        observeLiveData()
+
+    }
+
+
+    private fun observeLiveData() {
+        viewModel.doctorsLiveList.observe(viewLifecycleOwner){ doctorsLiveList ->
+            if (doctorsLiveList.size > 0){
+                recyclerViewAdapter.updateList(doctorsLiveList)
+            }
+        }
+    }
+
+    private fun handleClick(){
+
+    /*    binding.searchText.doOnTextChanged {text, _, _, _ ->
+            viewModel.filterListForName(text.toString())
+        }
+
+     */
+        binding.erkek.setOnCheckedChangeListener{_, isChecked ->
+            if (isChecked){
+                binding.kadin.isChecked = false
+//                recyclerViewAdapter.updateList(viewModel.filterByGender("male", viewModel.doctorsLiveList.value ?: arrayListOf()))
+                binding.searchText.addTextChangedListener { text ->
+                    recyclerViewAdapter.updateList(viewModel.filterByGenderAndListForName(text.toString(),"male",false,true,viewModel.doctorsLiveList.value ?: arrayListOf() ))
+                }
+            }else{
+                recyclerViewAdapter.updateList(viewModel.doctorsLiveList.value ?: arrayListOf())
+            }
+
+        }
+        binding.kadin.setOnCheckedChangeListener{_, isChecked ->
+            if (isChecked){
+                binding.erkek.isChecked = false
+                binding.searchText.addTextChangedListener { text ->
+                    recyclerViewAdapter.updateList(viewModel.filterByGenderAndListForName(text.toString(),"female",true,false,viewModel.doctorsLiveList.value ?: arrayListOf() ))
+                }
+            }else{
+                recyclerViewAdapter.updateList(viewModel.doctorsLiveList.value ?: arrayListOf())
+            }
+
+        }
+
+
+        binding.searchText.addTextChangedListener { text ->
+            recyclerViewAdapter.updateList(viewModel.filterListForName(text.toString(),viewModel.doctorsLiveList.value ?: arrayListOf() ))
+
+        }
+
+    }
+
+
+    override fun onItemClick(doctorsModel: DoctorsModel) {
+        Toast.makeText(requireContext(),"Clicked on : ${doctorsModel.name}", Toast.LENGTH_LONG).show()
+        val action = HomeFragmentDirections.actionHomeFragmentToPremiumFragment(doctorsModel)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
+
+
+}
