@@ -57,11 +57,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewAdapter.Liste
             }
         }
 
-        viewModel.isListEmpty.observe(viewLifecycleOwner){ isListEmpty ->
-            if (isListEmpty){
+        viewModel.isListEmpty.observe(viewLifecycleOwner) { isListEmpty ->
+            if (isListEmpty) {
                 binding.cvRecycler.visibility = View.GONE
                 binding.cvNoResult.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.cvRecycler.visibility = View.VISIBLE
                 binding.cvNoResult.visibility = View.GONE
             }
@@ -83,12 +83,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewAdapter.Liste
                         doctorList = viewModel.doctorsLiveList.value ?: arrayListOf()
                     )
                 )
-//                recyclerViewAdapter.updateList(viewModel.filterByGender("male", viewModel.doctorsLiveList.value ?: arrayListOf()))
-                /*  binding.searchText.addTextChangedListener { text ->
-                      recyclerViewAdapter.updateList(viewModel.filterByGenderAndListForName(text.toString(),"male",false,true,viewModel.doctorsLiveList.value ?: arrayListOf() ))
-                  }
-
-                 */
             } else {
                 recyclerViewAdapter.updateList(
                     viewModel.filterByGenderAndListForName(
@@ -100,7 +94,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewAdapter.Liste
                     )
                 )
 
-                //    recyclerViewAdapter.updateList(viewModel.doctorsLiveList.value ?: arrayListOf())
+
             }
 
         }
@@ -193,8 +187,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewAdapter.Liste
                 Navigation.findNavController(requireView()).navigate(action)
             }
         }
-        Toast.makeText(requireContext(), "Clicked on : ${doctorsModel.name}", Toast.LENGTH_LONG)
-            .show()
     }
 
 

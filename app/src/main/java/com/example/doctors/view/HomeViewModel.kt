@@ -31,19 +31,10 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
 
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = retrofit.getData()
-
             withContext(Dispatchers.Main){
                 if (response.isSuccessful){
-
                     response.body()?.let {
-                     //   doctorList = it
-                        println("model ${it?.data?.size}")
                         doctorsLiveList.value = it.data
-                     /*   doctorList?.data?.let{
-                            recyclerViewAdapter.updateList(it)
-                        }
-
-                      */
                     }
                 }else{
                     println("Veri cekilemedi")
@@ -72,13 +63,17 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
         if (doctorList.size > 0){
             if (female){
                 if(text.isNotEmpty()){
-                    return doctorList.filter { gender == it.gender && text.lowercase() in it.name.lowercase()} as ArrayList<DoctorsModel>
+                    val list = doctorList.filter { gender == it.gender && text.lowercase() in it.name.lowercase() } as ArrayList<DoctorsModel>
+                    isListEmpty.value = list.size <= 0
+                    return list
                 }else{
                     return doctorList.filter { gender == it.gender} as ArrayList<DoctorsModel>
                 }
             }else if (male){
                 if(text.isNotEmpty()){
-                    return doctorList.filter { gender == it.gender && text.lowercase() in it.name.lowercase()} as ArrayList<DoctorsModel>
+                    val list = doctorList.filter { gender == it.gender && text.lowercase() in it.name.lowercase() } as ArrayList<DoctorsModel>
+                    isListEmpty.value = list.size <= 0
+                    return list
                 }else{
                     return doctorList.filter { gender == it.gender} as ArrayList<DoctorsModel>
                 }
