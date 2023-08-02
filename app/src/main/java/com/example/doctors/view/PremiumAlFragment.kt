@@ -6,17 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.example.doctors.databinding.FragmentPremiumBinding
+import com.example.doctors.R
+import com.example.doctors.databinding.FragmentPremiumAlBinding
+import com.example.doctors.databinding.FragmentRandevuAlBinding
 
-class PremiumFragment : Fragment() {
-    private lateinit var binding : FragmentPremiumBinding
+class PremiumAlFragment : Fragment() {
+    private lateinit var binding : FragmentPremiumAlBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentPremiumBinding.inflate(inflater, container, false)
+        binding = FragmentPremiumAlBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -24,9 +26,8 @@ class PremiumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //Doctors_detail
         arguments?.let {
-            val doctorInfo = PremiumFragmentArgs.fromBundle(it).doctorsInfo
+            val doctorInfo = RandevuAlFragmentArgs.fromBundle(it).doctorsInfo
             binding.doctorsName.text = doctorInfo.name
-            binding.doctorsStatus.text = doctorInfo.status
 
             Glide.with(requireContext())
                 .load(doctorInfo.image.url)
@@ -34,7 +35,5 @@ class PremiumFragment : Fragment() {
                 .into(binding.doctorsImage)
         }
     }
-    fun filter(query : String){
 
-    }
 }

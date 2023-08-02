@@ -11,14 +11,26 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_premiumFragment"
-            app:destination="@id/premiumFragment" />
+            android:id="@+id/action_homeFragment_to_randevuAlFragment"
+            app:destination="@id/randevuAlFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_premiumAlFragment"
+            app:destination="@id/premiumAlFragment" />
     </fragment>
     <fragment
-        android:id="@+id/premiumFragment"
-        android:name="com.example.doctors.view.PremiumFragment"
-        android:label="fragment_premium"
-        tools:layout="@layout/fragment_premium" >
+        android:id="@+id/randevuAlFragment"
+        android:name="com.example.doctors.view.RandevuAlFragment"
+        android:label="fragment_randevu_al"
+        tools:layout="@layout/fragment_randevu_al" >
+        <argument
+            android:name="doctors_info"
+            app:argType="com.example.doctors.model.DoctorsModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/premiumAlFragment"
+        android:name="com.example.doctors.view.PremiumAlFragment"
+        android:label="fragment_premium_al"
+        tools:layout="@layout/fragment_premium_al" >
         <argument
             android:name="doctors_info"
             app:argType="com.example.doctors.model.DoctorsModel" />

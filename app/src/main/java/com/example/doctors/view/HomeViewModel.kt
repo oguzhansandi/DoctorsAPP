@@ -17,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class HomeViewModel (application: Application) : AndroidViewModel(application) {
 
     val doctorsLiveList = MutableLiveData<ArrayList<DoctorsModel>>()
+    val isListEmpty = MutableLiveData<Boolean>()
 
 
     private var job : Job? = null
@@ -44,6 +45,8 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
 
                       */
                     }
+                }else{
+                    println("Veri cekilemedi")
                 }
             }
         }
@@ -67,13 +70,13 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
     fun filterByGenderAndListForName(text: String, gender: String, female : Boolean, male : Boolean, doctorList: ArrayList<DoctorsModel>) : ArrayList<DoctorsModel>{
 
         if (doctorList.size > 0){
-            if (female == true){
+            if (female){
                 if(text.isNotEmpty()){
                     return doctorList.filter { gender == it.gender && text.lowercase() in it.name.lowercase()} as ArrayList<DoctorsModel>
                 }else{
                     return doctorList.filter { gender == it.gender} as ArrayList<DoctorsModel>
                 }
-            }else if (male == true){
+            }else if (male){
                 if(text.isNotEmpty()){
                     return doctorList.filter { gender == it.gender && text.lowercase() in it.name.lowercase()} as ArrayList<DoctorsModel>
                 }else{
@@ -81,15 +84,20 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
                 }
             }else{
                 if(text.isNotEmpty()){
-                    return doctorList.filter {text.lowercase() in it.name.lowercase()} as ArrayList<DoctorsModel>
+                    val list = doctorList.filter {text.lowercase() in it.name.lowercase()} as ArrayList<DoctorsModel>
+                    isListEmpty.value = list.size <= 0
+                    return list
                 }else{
                     return doctorList
                 }
             }
-
         }else {
             return doctorList
         }
+    }
+
+    fun getUserStatus(): String {
+        return "free"
     }
 
     override fun onCleared() {

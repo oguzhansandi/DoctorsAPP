@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#F4F4F4"
-    tools:context=".view.PremiumFragment">
+    tools:context=".view.PremiumAlFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/tab"
@@ -13,13 +12,11 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_margin="0dp"
-        app:cardCornerRadius="4dp"
         app:cardBackgroundColor="#1C8E5D"
+        app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent"></androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/doctors_info"
@@ -53,19 +50,10 @@
             android:layout_marginTop="30dp"
             android:text="TextView" />
 
-        <TextView
-            android:id="@+id/doctors_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center"
-            android:textColor="#FEAC02"
-            android:text="TextView" />
-
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/randevu_card"
+        android:id="@+id/premium_card"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -81,7 +69,7 @@
 
 
         <TextView
-            android:id="@+id/randevu_al"
+            android:id="@+id/premium_al"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="12.5dp"
@@ -90,10 +78,10 @@
             android:layout_marginRight="60dp"
             android:textSize="20dp"
             android:textColor="#AEAEB4"
-            android:text="Randevu Al" />
+            android:text="Premium Al" />
 
         <ImageView
-            android:id="@+id/randevuBTN"
+            android:id="@+id/premiumBTN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="280dp"
@@ -102,6 +90,7 @@
 
 
     </androidx.cardview.widget.CardView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
